@@ -11,9 +11,15 @@ import sys
 # ============================================
 # 配置 API
 # ============================================
-# ⚠️ 使用前请配置 API Key
-API_KEY = os.environ.get("OPENAI_API_KEY", "your-api-key-here")
+# ⚠️ 安全：API Key 必须通过环境变量提供，禁止硬编码
+API_KEY = os.environ.get("OPENAI_API_KEY")
 API_BASE = os.environ.get("OPENAI_BASE_URL", "https://api.deepseek.com")
+
+if not API_KEY or API_KEY == "your-api-key-here":
+    print("❌ 请设置环境变量 OPENAI_API_KEY")
+    print("   在终端执行: export OPENAI_API_KEY='sk-xxx'")
+    print("   或创建 .env 文件（参考 .env.example）")
+    sys.exit(1)
 
 os.environ["OPENAI_API_KEY"] = API_KEY
 os.environ["OPENAI_BASE_URL"] = API_BASE
@@ -24,11 +30,6 @@ common_llm = LLM(
     api_key=API_KEY,
     base_url=API_BASE
 )
-
-# ============================================
-# 读取用户需求
-# ============================================
-goal = sys.argv[1] if len(sys.argv) > 1 else "写一个井字棋游戏"
 
 # ============================================
 # 定义 Agent
@@ -86,15 +87,21 @@ task3 = Task(
 # 组队执行
 # ============================================
 团队 = Crew(
-    agents=[技术分析, 代码审查, 架构设计],
+    agents=[技术分析, 架构设计, 代码审查],  # 与 tasks 执行顺序一致
     tasks=[task1, task2, task3],
     process=Process.sequential,
     verbose=False,
 )
 
-result = 团队.kickoff(inputs={"goal": goal})
 
-# 输出纯结果（去掉CrewAI的日志装饰）
-print("\n" + "="*60)
-print("📦 最终结果：")
-print(result)
+def main():
+    """主函数：根据用户需求调用 CrewAI 团队执行"""
+    goal = sys.argv[1] if len(sys.argv) > 1 else "写一个井字棋游戏"
+    result = 团队.kickoff(inputs={"goal": goal})
+    print("\n" + "="*60)
+    print("📦 最终结果：")
+    print(result)
+
+
+if __name__ == "__main__":
+    main()

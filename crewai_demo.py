@@ -9,13 +9,15 @@ import os
 # ============================================
 # 配置 API — 用 OpenAI 兼容格式
 # ============================================
-# ⚠️ 使用前请配置你的 API Key
-# 方式一：环境变量
-#   export OPENAI_API_KEY="sk-xxx"
-#   export OPENAI_BASE_URL="https://api.deepseek.com"
-# 方式二：直接修改下面两行
-API_KEY = os.environ.get("OPENAI_API_KEY", "your-api-key-here")
+# ⚠️ 安全：API Key 必须通过环境变量提供，禁止硬编码
+API_KEY = os.environ.get("OPENAI_API_KEY")
 API_BASE = os.environ.get("OPENAI_BASE_URL", "https://api.deepseek.com")
+
+if not API_KEY or API_KEY == "your-api-key-here":
+    print("❌ 请设置环境变量 OPENAI_API_KEY")
+    print("   在终端执行: export OPENAI_API_KEY='sk-xxx'")
+    print("   或创建 .env 文件（参考 .env.example）")
+    sys.exit(1)
 
 os.environ["OPENAI_API_KEY"] = API_KEY
 os.environ["OPENAI_BASE_URL"] = API_BASE

@@ -1,0 +1,21 @@
+# 敏感配置（禁止提交）
+.env
+.env.local
+.env.*.local
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# CrewAI 日志
+logs/
+*.log
