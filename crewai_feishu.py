@@ -59,7 +59,7 @@ common_llm = LLM(
 # 定义 Task（任务按顺序执行）
 # ============================================
 task1 = Task(
-    description=f"""分析以下需求，给出技术方案和设计思路：
+    description="""分析以下需求，给出技术方案和设计思路：
 目标：{goal}
 要求：给出清晰的技术选型和实现方案""",
     expected_output="包含技术选型、模块划分、实现步骤的设计方案",
@@ -67,7 +67,7 @@ task1 = Task(
 )
 
 task2 = Task(
-    description=f"""根据技术方案，编写完整代码。
+    description="""根据技术方案，编写完整代码。
 目标：{goal}
 要求：
 1. 输出单个完整的Python文件，可直接运行

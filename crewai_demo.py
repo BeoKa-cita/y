@@ -5,6 +5,7 @@ CrewAI 层级模式 Demo
 
 from crewai import Agent, Task, Crew, Process, LLM
 import os
+import sys
 
 # ============================================
 # 配置 API — 用 OpenAI 兼容格式
